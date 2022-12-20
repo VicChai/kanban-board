@@ -28,40 +28,40 @@ export default class KanbanAPI {
   }
 
   static updateItem(itemId, newProps) {
-
-    const data = read()
+    const data = read();
     const [item, currentColumn] = (() => {
-        for (const column of data) {
-            const item = column.items.find(item => item.id == itemId)
+      for (const column of data) {
+        const item = column.items.find((item) => item.id == itemId);
 
-            if(item) {
-                return [item. column]
-            }
+        if (item) {
+          return [item.column];
         }
-    })()
+      }
+    })();
 
-    if(!item) {
-        throw new Error("Item not found")
+    if (!item) {
+      throw new Error("Item not found");
     }
 
-    item.content = newProps.content === undefined ? item.content : newProps.content
+    item.content =
+      newProps.content === undefined ? item.content : newProps.content;
 
-    if(
-        newProps.columnId !== undefined && newProps.position !== undefined
-    ) {
-        const target Column = data.find(column => column.id == newProps.columnId)
+    if (newProps.columnId !== undefined && newProps.position !== undefined) {
+      const targetColumn = data.find(
+        (column) => column.id == newProps.columnId
+      );
 
-        if(!targetColumn) {
-            throw new error("Target column not found")
-        }
+      if (!targetColumn) {
+        throw new error("Target column not found");
+      }
 
-        currentColumn.items.splice(currentColumn.items.indexOf(item),1)
+      currentColumn.items.splice(currentColumn.items.indexOf(item), 1);
 
-        targetColumn.items.splice(newProps.position,0,item)
+      targetColumn.items.splice(newProps.position, 0, item);
     }
 
-    save(data)
-   }
+    save(data);
+  }
 
   static deleteItem(itemId) {
     const data = read();
