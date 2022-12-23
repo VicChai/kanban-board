@@ -34,7 +34,7 @@ export default class KanbanAPI {
         const item = column.items.find((item) => item.id == itemId);
 
         if (item) {
-          return [item.column];
+          return [item, column];
         }
       }
     })();
@@ -52,7 +52,7 @@ export default class KanbanAPI {
       );
 
       if (!targetColumn) {
-        throw new error("Target column not found");
+        throw new Error("Target column not found");
       }
 
       currentColumn.items.splice(currentColumn.items.indexOf(item), 1);
@@ -70,7 +70,7 @@ export default class KanbanAPI {
       const item = column.items.find((item) => item.id == itemId);
 
       if (item) {
-        columns.items.splice(column.items.indexOf(item), 1);
+        column.items.splice(column.items.indexOf(item), 1);
       }
     }
 
@@ -105,6 +105,6 @@ function read() {
   return JSON.parse(json);
 }
 
-function save() {
+function save(data) {
   localStorage.setItem("kanban-data", JSON.stringify(data));
 }
